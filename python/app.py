@@ -11,8 +11,12 @@ import csv
 import os
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
-for gpu in gpus:
-  tf.config.experimental.set_memory_growth(gpu, True)
+if gpus:
+  try:
+    for gpu in gpus:
+      tf.config.experimental.set_memory_growth(gpu, True)
+  except RuntimeError as e:
+    print(e)
 
 
 class FeatureExtractor:
@@ -20,8 +24,9 @@ class FeatureExtractor:
         # Use VGG-16 as the architecture and ImageNet for the weight
         base_model = VGG16(weights='imagenet')
         # Customize the model to return features from fully-connected layer
-        self.model = Model(inputs=base_model.input, outputs=base_model.get_layer('fc1').output)
-    
+        self.model = Model(inputs=base_model.input,
+                           outputs=base_model.get_layer('fc1').output)
+
     def extract(self, img):
         # Resize the image
         img = img.resize((224, 224))
@@ -31,33 +36,29 @@ class FeatureExtractor:
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
-     
+
         # Extract Features
         feature = self.model.predict(x)[0]
-        return feature 
-
+        return feature
 
 
 arr = []
-arr2 =[]
-for x in range(1,20):
-    img=Image.open('../outputali/' +str(x)+'.jpg')
-    im=FeatureExtractor().extract(img)
+arr2 = []
+for x in range(1, 20):
+    img = Image.open('../outputali/' + str(x)+'.jpg')
+    im = FeatureExtractor().extract(img)
     arr.append(im)
     # print(arr[0])
-    for m in range(1,60):
+    for m in range(1, 60):
         # if(x>=1):
-        img2=Image.open('../outputamz/' +str(m)+'.jpg')
-        im2=FeatureExtractor().extract(img2)
+        img2 = Image.open('../outputamz/' + str(m)+'.jpg')
+        im2 = FeatureExtractor().extract(img2)
         arr2.append(im2)
 
-        z=arr[x-1]
-        y=arr2[m-1]
+        z = arr[x-1]
+        y = arr2[m-1]
         # def eucledian_distance(x,y):
         eucl_dist = np.linalg.norm(z - y)
-
-        
-
 
         # filepath = Path('../output/amazon.csv')  # CSV file to update.
 
@@ -77,9 +78,9 @@ for x in range(1,20):
 
         # # Replace original file with updated version.
         # os.replace(tmp_file.name, filepath)
-        
+
         print("----- EUCL DIST -----")
-        print(str(x)+".jpg"+ "  "+ str(m)+".jpg")
+        print(str(x)+".jpg" + "  " + str(m)+".jpg")
         print(eucl_dist)
         print("----- EUCL DIST -----")
         # return eucl_dist
