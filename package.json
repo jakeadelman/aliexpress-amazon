@@ -22,6 +22,7 @@
     "mysql2": "^2.3.3",
     "node-fetch": "^3.0.10",
     "phantom": "^6.3.0",
+    "python-shell": "^3.0.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "sequelize": "^6.23.0"
