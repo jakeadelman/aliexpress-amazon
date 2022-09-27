@@ -2,12 +2,11 @@ import { Sequelize, Model, DataTypes } from "sequelize";
 
 const sequelize = new Sequelize(
   "imagesDB",
-  "vultradmin",
-  "AVNS_3_NVuqqmIBwhTY7W5Nv",
+  "root",
+  "password",
   {
-    host: "vultr-prod-f504d363-edc8-4bff-a4e0-d7328c6d72f6-vultr-prod-8b55.vultrdb.com",
+    host: "localhost",
     dialect: "mysql",
-    port: 16751,
   }
 );
 
