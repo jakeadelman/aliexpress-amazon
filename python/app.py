@@ -37,6 +37,17 @@ if gpus:
     # Virtual devices must be set before GPUs have been initialized
     print(e)
 
+ali = {}
+amz={}
+num = 0
+for line in sys.stdin:
+    if num==0:
+        amz = json.loads(line.rstrip())
+    else:
+        ali = json.loads(line.rstrip())    
+    num+=1
+ 
+print("Done")
 
 
 print("HERE")
@@ -65,8 +76,8 @@ with tf.device('GPU:0'):
             return feature
 
     # print(sys.argv)
-    ali = json.loads(sys.argv[6])
-    amz = json.loads(sys.argv[7])
+    # ali = json.loads(sys.argv[6])
+    # amz = json.loads(sys.argv[7])
     arr = []
     arr2 = []
     # base_id = int(sys.argv[1])
